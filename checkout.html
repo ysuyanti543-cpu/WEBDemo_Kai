@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout Tiket KAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --primary: #6a0dad;
+  --secondary: #ff4081;
+  --bg: #f0f0f5;
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --shadow: rgba(0,0,0,0.2);
+}
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #6a0dad, #ff4081);
+  min-height: 100vh;
+  color: #333;
+}
+nav {
+  background-color: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-weight: 600;
+}
+nav .nav-left img { height: 40px; }
+nav .nav-menu { list-style:none; display:flex; gap:25px; margin:0; padding:0; }
+nav .nav-menu li { cursor:pointer; transition:0.3s; }
+nav .nav-menu li:hover { color: #fff200; }
+
+.checkout-container {
+  max-width: 650px;
+  margin: 60px auto;
+  background: var(--card-bg);
+  border-radius: 25px;
+  padding: 30px;
+  box-shadow: 0 15px 40px var(--shadow);
+  backdrop-filter: blur(20px);
+  color: #222;
+}
+h2 {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--primary);
+}
+.ticket-info p { margin: 10px 0; font-size: 16px; }
+label { font-weight: 600; margin-top: 15px; display:block; }
+input[type=number], select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(5px);
+}
+input[type=number]:focus, select:focus { outline: none; box-shadow: 0 0 8px var(--secondary); }
+
+.total {
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 25px;
+  text-align: right;
+  color: var(--primary);
+}
+
+.btn-pay {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(90deg, #6a0dad, #ff4081);
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+.btn-pay:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+footer {
+  text-align: center;
+  color: white;
+  margin-top: 60px;
+  font-size: 14px;
+}
+
+.icon { margin-right:8px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <img src="logo-kai.png" alt="Logo KAI">
+    <span>KAI Ticket</span>
+  </div>
+  <ul class="nav-menu">
+    <li>Beranda</li>
+    <li>Tiket</li>
+    <li>Bantuan</li>
+    <li>Tentang</li>
+  </ul>
+</nav>
+
+<div class="checkout-container">
+  <h2>Checkout Tiket Anda</h2>
+
+  <div class="ticket-info">
+    <p><i class="fas fa-train icon"></i><strong>Stasiun Asal:</strong> <span id="asal"></span></p>
+    <p><i class="fas fa-map-marker-alt icon"></i><strong>Stasiun Tujuan:</strong> <span id="tujuan"></span></p>
+    <p><i class="fas fa-calendar-alt icon"></i><strong>Tanggal Keberangkatan:</strong> <span id="tanggal"></span></p>
+
+    <label for="tiket">Pilih Kereta:</label>
+    <select id="tiket" onchange="updateTiket()">
+      <option value="">--Pilih Kereta--</option>
+    </select>
+
+    <p><strong>Kereta:</strong> <span id="tiket-nama"></span></p>
+    <p><strong>Berangkat:</strong> <span id="berangkat"></span></p>
+    <p><strong>Tiba:</strong> <span id="tiba"></span></p>
+    <p><strong>Durasi:</strong> <span id="durasi"></span></p>
+
+    <label for="jumlah">Jumlah Penumpang:</label>
+    <input type="number" id="jumlah" min="1" value="1" onchange="updateTotal()">
+
+    <label for="metode">Metode Pembayaran:</label>
+    <select id="metode">
+      <option value="Transfer Bank">Transfer Bank</option>
+      <option value="OVO">OVO</option>
+      <option value="GoPay">GoPay</option>
+      <option value="Kartu Kredit">Kartu Kredit</option>
+    </select>
+
+    <p class="total"><i class="fas fa-wallet icon"></i>Total Harga: Rp <span id="harga"></span></p>
+  </div>
+
+  <button class="btn-pay" onclick="bayar()">Bayar Sekarang</button>
+</div>
+
+<footer>&copy; 2025 KAI Ticket Demo — Dibuat oleh Budi Azhar</footer>
+
+<script>
+const tiketData = [
+  {nama:"Argo Parahyangan", berangkat:"08:00", tiba:"12:00", durasi:"4h", harga:200000},
+  {nama:"Turangga", berangkat:"09:30", tiba:"14:00", durasi:"4.5h", harga:250000},
+  {nama:"Mutiara Selatan", berangkat:"13:00", tiba:"18:00", durasi:"5h", harga:300000},
+  {nama:"Sancaka", berangkat:"15:00", tiba:"19:30", durasi:"4.5h", harga:280000},
+  {nama:"Kahuripan", berangkat:"00:00", tiba:"06:30", durasi:"6.5h", harga:80000},
+  {nama:"Computer Line Garut", berangkat:"16:25", tiba:"19:20", durasi:"3.5h", harga:8000},
+];
+
+// Ambil data URL
+const params = new URLSearchParams(window.location.search);
+document.getElementById('asal').textContent = params.get('asal') || '-';
+document.getElementById('tujuan').textContent = params.get('tujuan') || '-';
+document.getElementById('tanggal').textContent = params.get('tanggal') || '-';
+
+// Dropdown tiket
+const tiketSelect = document.getElementById('tiket');
+tiketData.forEach(t => {
+  const option = document.createElement('option');
+  option.value = t.nama;
+  option.textContent = t.nama;
+  tiketSelect.appendChild(option);
+});
+
+let hargaPerTiket = 0;
+
+function updateTiket() {
+  const tiketNama = tiketSelect.value;
+  const tiket = tiketData.find(t => t.nama === tiketNama);
+  if (tiket) {
+    document.getElementById('tiket-nama').textContent = tiket.nama;
+    document.getElementById('berangkat').textContent = tiket.berangkat;
+    document.getElementById('tiba').textContent = tiket.tiba;
+    document.getElementById('durasi').textContent = tiket.durasi;
+    hargaPerTiket = tiket.harga;
+    updateTotal();
+  } else {
+    document.getElementById('tiket-nama').textContent = '';
+    document.getElementById('berangkat').textContent = '';
+    document.getElementById('tiba').textContent = '';
+    document.getElementById('durasi').textContent = '';
+    hargaPerTiket = 0;
+    updateTotal();
+  }
+}
+
+function updateTotal() {
+  const jumlah = parseInt(document.getElementById('jumlah').value) || 1;
+  document.getElementById('harga').textContent = hargaPerTiket * jumlah;
+}
+
+function bayar() {
+  const jumlah = document.getElementById('jumlah').value;
+  const metode = document.getElementById('metode').value;
+  const total = document.getElementById('harga').textContent;
+
+  if (!tiketSelect.value) {
+    alert("⚠️ Silakan pilih kereta terlebih dahulu!");
+    return;
+  }
+
+  alert(`✅ Pembayaran berhasil!\nKereta: ${tiketSelect.value}\nMetode: ${metode}\nJumlah Penumpang: ${jumlah}\nTotal: Rp ${total}`);
+  window.location.href = "index.html";
+}
+
+// inisialisasi
+updateTotal();
+</script>
+
+</body>
+</html>

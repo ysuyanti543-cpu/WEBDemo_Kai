@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasil Tiket - KAI Ticket</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root {
+  --ungu: #4B32C3;
+  --oranye: #FF6600;
+  --putih: #ffffff;
+  --card-bg: rgba(255,255,255,0.1);
+  --shadow: rgba(0,0,0,0.2);
+}
+
+* { box-sizing: border-box; margin:0; padding:0; font-family: 'Poppins', sans-serif; }
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6C5DD3, #9B8FEA);
+  color: #fff;
+  position: relative;
+}
+
+/* NAVBAR */
+nav {
+  background-color: var(--ungu);
+  padding: 12px 30px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 5px 15px var(--shadow);
+  border-bottom-left-radius:10px;
+  border-bottom-right-radius:10px;
+  position: relative;
+  z-index:1;
+}
+nav h1 { display:flex; align-items:center; gap:8px; font-size:20px; }
+nav ul { list-style:none; display:flex; gap:20px; margin:0; }
+nav ul li { cursor:pointer; transition:0.3s; font-weight:500; }
+nav ul li:hover { color: var(--oranye); }
+
+/* CONTAINER */
+.container { max-width:900px; margin:30px auto; padding:0 15px; position:relative; z-index:1; }
+h2 { text-align:center; margin-bottom:20px; }
+#info { text-align:center; margin-bottom:20px; font-size:16px; }
+
+/* CARD GRID */
+.card-container {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap:20px;
+}
+
+/* CARD */
+.ticket-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 15px;
+  padding: 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.ticket-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px var(--shadow);
+}
+
+.ticket-header { display:flex; align-items:center; gap:10px; font-weight:600; font-size:18px; color:var(--putih); margin-bottom:10px; }
+.ticket-body p { margin:5px 0; font-size:14px; }
+.ticket-footer {
+  margin-top:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.ticket-footer button {
+  background: linear-gradient(90deg, var(--ungu), var(--oranye));
+  border:none;
+  color:var(--putih);
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  transition: all 0.3s;
+}
+.ticket-footer button:hover { transform: translateY(-2px); }
+
+/* FOOTER */
+footer { text-align:center; background-color: var(--ungu); padding:15px; font-size:14px; border-top-left-radius:10px; border-top-right-radius:10px; }
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  h2{ font-size:20px; }
+  .ticket-card{ padding:15px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <h1><i class="fa-solid fa-train-subway"></i> KAI Ticket</h1>
+  <ul>
+    <li onclick="window.location.href='index.html'">Beranda</li>
+    <li>Tiket</li>
+    <li>Bantuan</li>
+    <li>Tentang</li>
+  </ul>
+</nav>
+
+<div class="container">
+  <h2>Hasil Pencarian Tiket</h2>
+  <p id="info"></p>
+
+  <div class="card-container" id="card-container"></div>
+</div>
+
+<footer>
+  &copy; 2025 KAI Ticket Demo — Dibuat oleh Budi Azhar
+</footer>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const asal = params.get('asal');
+const tujuan = params.get('tujuan');
+const tanggal = params.get('tanggal');
+
+const info = document.getElementById('info');
+const container = document.getElementById('card-container');
+
+if(!asal || !tujuan || !tanggal){
+  info.innerHTML = "⚠️ Data pencarian tidak lengkap. Silakan kembali ke beranda.";
+}else{
+  info.innerHTML = `Tiket dari <b>${asal}</b> ke <b>${tujuan}</b> pada <b>${tanggal}</b>`;
+
+  const tiketData = [
+    {nama:"Argo Parahyangan", berangkat:"08:00", tiba:"12:00", durasi:"4h", harga:"Rp200.000"},
+    {nama:"Turangga", berangkat:"09:30", tiba:"14:00", durasi:"4.5h", harga:"Rp250.000"},
+    {nama:"Mutiara Selatan", berangkat:"13:00", tiba:"18:00", durasi:"5h", harga:"Rp300.000"},
+    {nama:"Sancaka", berangkat:"15:00", tiba:"19:30", durasi:"4.5h", harga:"Rp280.000"},
+    {nama:"Kahuripan", berangkat:"00:00", tiba:"06:30", durasi:"6,5h", harga:"Rp80.000"},
+    {nama:"Computer Line Garut", berangkat:"16:25", tiba:"19:20", durasi:"3,5h", harga:"Rp8.000"},
+  ];
+
+  tiketData.forEach(tiket => {
+    const card = document.createElement('div');
+    card.classList.add('ticket-card');
+    card.innerHTML = `
+      <div class="ticket-header"><i class="fa-solid fa-train"></i> ${tiket.nama}</div>
+      <div class="ticket-body">
+        <p><b>Berangkat:</b> ${tiket.berangkat}</p>
+        <p><b>Tiba:</b> ${tiket.tiba}</p>
+        <p><b>Durasi:</b> ${tiket.durasi}</p>
+        <p><b>Harga:</b> ${tiket.harga}</p>
+      </div>
+      <div class="ticket-footer">
+        <span><i class="fa-solid fa-clock"></i> ${tiket.durasi}</span>
+        <button onclick="window.location.href='checkout.html?kereta=${encodeURIComponent(tiket.nama)}&asal=${encodeURIComponent(asal)}&tujuan=${encodeURIComponent(tujuan)}&tanggal=${encodeURIComponent(tanggal)}&harga=${encodeURIComponent(tiket.harga)}'">Checkout</button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+</script>
+</body>
+</html>

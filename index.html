@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAI Ticket - Modern Minimalis</title>
+
+<!-- Google Fonts & Font Awesome -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root {
+  --primary: #4B32C3; /* ungu gelap */
+  --secondary: #FF6600; /* oranye */
+  --bg: linear-gradient(135deg, #6C5DD3, #9B8FEA); /* gradasi ungu */
+  --card-bg: rgba(255, 255, 255, 0.2); /* card semi-transparan */
+  --shadow: rgba(0, 0, 0, 0.15);
+}
+
+* { box-sizing: border-box; margin:0; padding:0; font-family: 'Poppins', sans-serif; }
+body { background: var(--bg); color: #fff; line-height: 1.6; }
+
+/* ===== NAVBAR ===== */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 5px 15px var(--shadow);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.nav-left { display:flex; align-items:center; gap:10px; font-weight:600; font-size:18px; }
+.nav-left img { height: 35px; }
+.nav-left i { font-size: 22px; }
+.nav-title { font-weight:600; }
+.nav-menu {
+  list-style:none;
+  display:flex;
+  gap:25px;
+  font-weight:500;
+}
+.nav-menu li { cursor:pointer; transition:0.3s; }
+.nav-menu li:hover { color: var(--secondary); }
+
+/* ===== HERO ===== */
+.hero {
+  text-align:center;
+  padding:60px 20px 40px;
+  background: linear-gradient(to bottom right, rgba(255,255,255,0.1), rgba(255,255,255,0.1)), url('logo-kai.png') center/cover no-repeat;
+  border-radius:15px;
+  margin:20px;
+  box-shadow:0 10px 30px var(--shadow);
+}
+.hero h2 { font-size:32px; margin-bottom:15px; color: #fff; }
+.hero p { font-size:18px; max-width:600px; margin:0 auto; color: #f0f0f0; }
+
+/* ===== FORM ===== */
+.form-container, .hasil {
+  background: var(--card-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  width:90%;
+  max-width:600px;
+  margin: -50px auto 40px;
+  padding:30px;
+  border-radius:20px;
+  box-shadow: 0 15px 40px var(--shadow);
+  color:#fff;
+}
+
+.form-container h3 {
+  color: #fff;
+  text-align:center;
+  margin-bottom:20px;
+  font-size:22px;
+}
+
+label {
+  display:block;
+  margin-top:15px;
+  font-weight:600;
+}
+
+input[type="text"], input[type="date"] {
+  width:100%;
+  padding:12px;
+  margin-top:5px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  font-size:15px;
+  background: rgba(255,255,255,0.3);
+  color:#fff;
+  transition: all 0.3s;
+}
+input::placeholder { color: rgba(255,255,255,0.7); }
+input:focus {
+  border-color: var(--secondary);
+  box-shadow:0 0 10px rgba(255,102,0,0.3);
+  outline:none;
+}
+
+button {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color:white;
+  font-weight:700;
+  border:none;
+  padding:14px;
+  border-radius:15px;
+  width:100%;
+  font-size:16px;
+  margin-top:20px;
+  cursor:pointer;
+  transition: all 0.3s ease;
+}
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* ===== HASIL ===== */
+.hasil {
+  display:none;
+  text-align:center;
+  font-size:16px;
+  line-height:1.5;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align:center;
+  background-color: var(--primary);
+  color:white;
+  padding:20px;
+  font-size:14px;
+  border-top-left-radius:10px;
+  border-top-right-radius:10px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px){
+  .nav-menu{ display:none; }
+  .hero h2{ font-size:26px; }
+  .hero p{ font-size:16px; }
+  .form-container, .hasil{ padding:25px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-left">
+    <img src="logo-kai.png" alt="Logo KAI">
+    <i class="fa-solid fa-train-subway"></i>
+    <span class="nav-title">KAI Ticket</span>
+  </div>
+  <ul class="nav-menu">
+    <li>Beranda</li>
+    <li>Tiket</li>
+    <li>Bantuan</li>
+    <li>Tentang</li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h2>Selamat Datang di KAI Ticket</h2>
+  <p>Pesan tiket kereta dengan mudah dan cepat kapan saja. Temukan perjalanan terbaik Anda hari ini!</p>
+</div>
+
+<!-- FORM -->
+<div class="form-container">
+  <h3><i class="fa-solid fa-ticket"></i> Cari Tiket Anda</h3>
+
+  <label>Stasiun Asal</label>
+  <input type="text" id="asal" placeholder="Contoh: Bandung">
+
+  <label>Stasiun Tujuan</label>
+  <input type="text" id="tujuan" placeholder="Contoh: Yogyakarta">
+
+  <label>Tanggal Keberangkatan</label>
+  <input type="date" id="tanggal-keberangkatan">
+
+  <button onclick="cariTiket()"><i class="fa-solid fa-magnifying-glass"></i> Cari Tiket</button>
+</div>
+
+<!-- HASIL -->
+<div id="hasil" class="hasil"></div>
+
+<!-- FOOTER -->
+<footer>
+  &copy; 2025 KAI Ticket Demo — Dibuat oleh Budi Azhar
+</footer>
+
+<script>
+function cariTiket() {
+  const asal = document.getElementById("asal").value.trim();
+  const tujuan = document.getElementById("tujuan").value.trim();
+  const tanggal = document.getElementById("tanggal-keberangkatan").value;
+
+  if (!asal || !tujuan || !tanggal) {
+    alert("⚠️ Mohon isi semua data perjalanan terlebih dahulu!");
+    return;
+  }
+
+  // Arahkan ke halaman tiket.html dengan query string
+  window.location.href = `tiket.html?asal=${encodeURIComponent(asal)}&tujuan=${encodeURIComponent(tujuan)}&tanggal=${encodeURIComponent(tanggal)}`;
+}
+</script>
+
+</body>
+</html>
